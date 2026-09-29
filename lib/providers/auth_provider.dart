@@ -282,6 +282,33 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
+  Future<Map<String, dynamic>> deleteAccount() async {
+    state = state.copyWith(isLoading: true, error: null);
+    try {
+      final res = await _client.dio.post('/auth/delete-account');
+      state = state.copyWith(isLoading: false);
+      if (res.statusCode == 200 && res.data['success'] == true) {
+        await _client.clearAuthToken();
+        state = const AuthState();
+        return {
+          'success': true,
+          'message': res.data['message']?.toString() ?? 'Account deleted successfully.',
+        };
+      }
+      return {
+        'success': false,
+        'error': res.data['error']?.toString() ?? 'Failed to delete account.',
+      };
+    } catch (e) {
+      String msg = 'Could not connect to server. Please try again.';
+      if (e is DioException && e.response?.data is Map) {
+        msg = e.response?.data['error']?.toString() ?? msg;
+      }
+      state = state.copyWith(isLoading: false, error: msg);
+      return {'success': false, 'error': msg};
+    }
+  }
+
   Future<void> logout() async {
     try {
       await _client.dio.post('/auth/logout');

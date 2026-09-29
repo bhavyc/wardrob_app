@@ -375,6 +375,28 @@ class ProfileScreen extends ConsumerWidget {
                 subtitle: 'Auto-credited to source within 24 hours of return',
                 onTap: () => _showDepositPolicy(context),
               ),
+
+              const SizedBox(height: 24),
+
+              // ── 5. PRIVACY & ACCOUNT SETTINGS (APP STORE COMPLIANCE) ─────
+              Text(
+                'ACCOUNT & DATA PRIVACY',
+                style: GoogleFonts.inter(
+                  fontSize: 9,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1.2,
+                  color: AppColors.inkMuted,
+                ),
+              ),
+              const SizedBox(height: 10),
+
+              _buildProfileOptionTile(
+                icon: Icons.delete_outline_rounded,
+                title: 'Delete Account',
+                subtitle: 'Permanently remove your account & identity data',
+                isDestructive: true,
+                onTap: () => _showDeleteAccountDialog(context, ref),
+              ),
             ],
           ),
         ),
@@ -478,6 +500,7 @@ class ProfileScreen extends ConsumerWidget {
     required String title,
     required String subtitle,
     required VoidCallback onTap,
+    bool isDestructive = false,
   }) {
     return GestureDetector(
       onTap: onTap,
@@ -487,7 +510,10 @@ class ProfileScreen extends ConsumerWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: const Color(0xFFEDE8E1), width: 0.8),
+          border: Border.all(
+            color: isDestructive ? const Color(0xFFFCA5A5) : const Color(0xFFEDE8E1),
+            width: 0.8,
+          ),
         ),
         child: Row(
           children: [
@@ -495,10 +521,14 @@ class ProfileScreen extends ConsumerWidget {
               width: 36,
               height: 36,
               decoration: BoxDecoration(
-                color: AppColors.bgCream,
+                color: isDestructive ? const Color(0xFFFEF2F2) : AppColors.bgCream,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(icon, color: AppColors.ink, size: 18),
+              child: Icon(
+                icon,
+                color: isDestructive ? const Color(0xFFDC2626) : AppColors.ink,
+                size: 18,
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -510,7 +540,7 @@ class ProfileScreen extends ConsumerWidget {
                     style: GoogleFonts.inter(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.ink,
+                      color: isDestructive ? const Color(0xFFDC2626) : AppColors.ink,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -520,7 +550,7 @@ class ProfileScreen extends ConsumerWidget {
                     subtitle,
                     style: GoogleFonts.inter(
                       fontSize: 9.5,
-                      color: AppColors.inkMuted,
+                      color: isDestructive ? const Color(0xFFEF4444) : AppColors.inkMuted,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -529,9 +559,139 @@ class ProfileScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(width: 4),
-            const Icon(Icons.chevron_right_rounded, size: 18, color: Color(0xFFCBD5E1)),
+            Icon(
+              Icons.chevron_right_rounded,
+              size: 18,
+              color: isDestructive ? const Color(0xFFFCA5A5) : const Color(0xFFCBD5E1),
+            ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showDeleteAccountDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (dialogCtx) => AlertDialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: const BoxDecoration(
+                color: Color(0xFFFEF2F2),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.warning_amber_rounded, color: Color(0xFFDC2626), size: 22),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                'Delete Account?',
+                style: GoogleFonts.cormorantGaramond(fontSize: 20, fontWeight: FontWeight.w700, color: AppColors.ink),
+              ),
+            ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'This action is irreversible. All your profile information, saved addresses, and archives will be permanently erased.',
+              style: GoogleFonts.inter(fontSize: 12.5, color: const Color(0xFF4A4A58), height: 1.5),
+            ),
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFFBEB),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: const Color(0xFFFDE68A), width: 0.8),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.info_outline_rounded, size: 16, color: Color(0xFFD97706)),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Active rentals or unreturned outfits must be completed first.',
+                      style: GoogleFonts.inter(fontSize: 11, color: const Color(0xFF92400E)),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogCtx).pop(),
+            child: Text(
+              'Cancel',
+              style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.inkSecondary),
+            ),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFDC2626),
+              foregroundColor: Colors.white,
+              elevation: 0,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            ),
+            onPressed: () async {
+              Navigator.of(dialogCtx).pop();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Processing account deletion...'),
+                  duration: Duration(seconds: 2),
+                ),
+              );
+              final res = await ref.read(authProvider.notifier).deleteAccount();
+              if (res['success'] == true) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(res['message'] ?? 'Account successfully deleted.'),
+                      backgroundColor: const Color(0xFF059669),
+                    ),
+                  );
+                }
+              } else {
+                if (context.mounted) {
+                  showDialog(
+                    context: context,
+                    builder: (errCtx) => AlertDialog(
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                      title: Text(
+                        'Cannot Delete Account',
+                        style: GoogleFonts.cormorantGaramond(fontSize: 18, fontWeight: FontWeight.w700, color: const Color(0xFFDC2626)),
+                      ),
+                      content: Text(
+                        res['error'] ?? 'Active bookings or unreturned items found.',
+                        style: GoogleFonts.inter(fontSize: 12.5, color: const Color(0xFF4A4A58), height: 1.45),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.of(errCtx).pop(),
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              }
+            },
+            child: Text(
+              'Yes, Delete',
+              style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w700),
+            ),
+          ),
+        ],
       ),
     );
   }
