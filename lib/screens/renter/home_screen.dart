@@ -79,10 +79,7 @@ class _RenterHomeScreenState extends ConsumerState<RenterHomeScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(listingProvider);
 
-    // Filter Vault listings by selected inline category
-    final vaultListings = _selectedVaultCategory == 'All'
-        ? state.listings
-        : state.listings.where((item) => item.category.toLowerCase() == _selectedVaultCategory.toLowerCase()).toList();
+    final vaultListings = state.listings;
 
     return Scaffold(
       backgroundColor: AppColors.bgCream,
@@ -1145,16 +1142,6 @@ class _RenterHomeScreenState extends ConsumerState<RenterHomeScreen> {
   // 6. THE VAULT (ARCHIVAL CATALOG GRID)
   // ─────────────────────────────────────────────────────────────────────────────
   Widget _buildTheVaultGrid(BuildContext context, List<ListingModel> listings, List<ListingModel> allListings) {
-    final distinctCategories = allListings
-        .map((l) => l.category)
-        .where((c) => c.isNotEmpty)
-        .toSet()
-        .toList();
-    distinctCategories.sort();
-    final categoriesList = distinctCategories.isNotEmpty
-        ? ['All', ...distinctCategories]
-        : ['All', 'Lehenga', 'Saree', 'Sherwani', 'Gown', 'Sharara'];
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1192,7 +1179,7 @@ class _RenterHomeScreenState extends ConsumerState<RenterHomeScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  ref.read(listingProvider.notifier).setCategory(_selectedVaultCategory);
+                  ref.read(listingProvider.notifier).setCategory('All');
                   Navigator.of(context).push(
                     MaterialPageRoute(builder: (_) => const CatalogScreen()),
                   );
@@ -1221,61 +1208,6 @@ class _RenterHomeScreenState extends ConsumerState<RenterHomeScreen> {
                 ),
               ),
             ],
-          ),
-        ),
-        const SizedBox(height: 12),
-
-        // Quick Category Filter Pills
-        SizedBox(
-          height: 34,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: categoriesList.length,
-            itemBuilder: (context, i) {
-              final cat = categoriesList[i];
-              final isSelected = _selectedVaultCategory.toLowerCase() == cat.toLowerCase();
-
-              return GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _selectedVaultCategory = cat;
-                  });
-                },
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  margin: const EdgeInsets.only(right: 8),
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: isSelected ? AppColors.ink : Colors.white,
-                    borderRadius: BorderRadius.circular(22),
-                    border: Border.all(
-                      color: isSelected ? AppColors.ink : const Color(0xFFEDE7DF),
-                      width: 1.0,
-                    ),
-                    boxShadow: isSelected
-                        ? [
-                            BoxShadow(
-                              color: AppColors.ink.withValues(alpha: 0.15),
-                              blurRadius: 6,
-                              offset: const Offset(0, 2),
-                            ),
-                          ]
-                        : null,
-                  ),
-                  child: Center(
-                    child: Text(
-                      cat,
-                      style: GoogleFonts.inter(
-                        fontSize: 11,
-                        fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                        color: isSelected ? Colors.white : AppColors.inkSecondary,
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
           ),
         ),
         const SizedBox(height: 16),
@@ -1317,7 +1249,7 @@ class _RenterHomeScreenState extends ConsumerState<RenterHomeScreen> {
                     if (i == listings.length) {
                       return GestureDetector(
                         onTap: () {
-                          ref.read(listingProvider.notifier).setCategory(_selectedVaultCategory);
+                          ref.read(listingProvider.notifier).setCategory('All');
                           Navigator.of(context).push(
                             MaterialPageRoute(builder: (_) => const CatalogScreen()),
                           );
