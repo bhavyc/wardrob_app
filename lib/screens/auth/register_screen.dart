@@ -445,7 +445,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
 
                               _buildInputField(
                                 label: 'MOBILE NUMBER (10 DIGITS)',
-                                hint: '9876543210',
+                                hint: 'Enter 10-digit mobile',
                                 icon: Icons.phone_iphone_rounded,
                                 controller: _phoneController,
                                 keyboardType: TextInputType.phone,

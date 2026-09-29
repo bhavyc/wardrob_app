@@ -405,8 +405,7 @@ class ProfileScreen extends ConsumerWidget {
   }
 
   Widget _buildLatestOrderSnippet(BuildContext context, BookingModel b) {
-    final itemTitle = b.listing?.title ??
-        (b.id == 'bk_1' ? 'Crimson Velvet Bridal Lehenga' : 'Heritage Banarasi Katan Silk Saree');
+    final itemTitle = b.listing?.title ?? 'Couture Rental Outfit';
     final itemImage = (b.listing != null && b.listing!.baselineImages.isNotEmpty)
         ? b.listing!.baselineImages.first
         : null;
