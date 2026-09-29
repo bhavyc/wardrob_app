@@ -2309,7 +2309,7 @@ class _RenterHomeScreenState extends ConsumerState<RenterHomeScreen> {
           ),
           const SizedBox(height: 4),
           Text(
-            'New Delhi · Mumbai · Bengaluru · Kolkata',
+            'Pan-India Luxury Couture Rental',
             style: GoogleFonts.inter(
               fontSize: 10,
               color: AppColors.inkSecondary,

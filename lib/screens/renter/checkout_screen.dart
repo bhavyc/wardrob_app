@@ -59,18 +59,6 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
           _phoneController.text = auth.user!.phone!;
         }
       }
-      if (_streetController.text.isEmpty) {
-        _streetController.text = 'Flat 402, Royal Palms, Bandra West';
-      }
-      if (_cityController.text.isEmpty) {
-        _cityController.text = 'Mumbai';
-      }
-      if (_stateController.text.isEmpty) {
-        _stateController.text = 'Maharashtra';
-      }
-      if (_pincodeController.text.isEmpty) {
-        _pincodeController.text = '400050';
-      }
     });
   }
 
@@ -602,7 +590,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                         child: _buildInputField(
                           label: 'CITY *',
                           controller: _cityController,
-                          hint: 'e.g. Mumbai',
+                          hint: 'Enter city',
                           icon: Icons.location_city_outlined,
                         ),
                       ),
@@ -611,7 +599,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                         child: _buildInputField(
                           label: 'STATE *',
                           controller: _stateController,
-                          hint: 'e.g. Maharashtra',
+                          hint: 'Enter state',
                         ),
                       ),
                     ],
@@ -620,7 +608,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   _buildInputField(
                     label: 'PIN CODE * (6 DIGITS REQUIRED)',
                     controller: _pincodeController,
-                    hint: '6-digit PIN code (e.g. 400050)',
+                    hint: '6-digit PIN code',
                     icon: Icons.pin_drop_outlined,
                     keyboardType: TextInputType.number,
                   ),

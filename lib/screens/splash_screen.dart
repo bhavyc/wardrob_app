@@ -438,7 +438,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                       const SizedBox(height: 4),
 
                       Text(
-                        'NEW DELHI · MUMBAI · BENGALURU',
+                        'PAN-INDIA LUXURY COUTURE',
                         style: GoogleFonts.inter(
                           fontSize: 7.5,
                           fontWeight: FontWeight.w500,
