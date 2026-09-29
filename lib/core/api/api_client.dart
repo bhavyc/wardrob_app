@@ -4,21 +4,20 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class ApiClient {
   static const String _storageTokenKey = 'auth_token';
 
-  // 10.76.137.2 is the active USB Tether (Ethernet 4) IP; 10.0.2.2 is Android Emulator
+  // 10.76.137.202 is the active USB Tether (Ethernet 4) IP; 192.168.88.9 is Wi-Fi; 10.0.2.2 is Android Emulator
   static const String emulatorBaseUrl = 'http://10.0.2.2:3000/api';
-  static const String physicalDeviceBaseUrl = 'http://10.76.137.2:3000/api';
-  static const String usbTetherBaseUrl = 'http://10.76.137.2:3000/api';
-  static const String wifiLanBaseUrl = 'http://192.168.88.10:3000/api';
+  static const String physicalDeviceBaseUrl = 'http://10.76.137.202:3000/api';
+  static const String usbTetherBaseUrl = 'http://10.76.137.202:3000/api';
+  static const String wifiLanBaseUrl = 'http://192.168.88.9:3000/api';
   static const String productionBaseUrl = 'https://wardrob.in/api';
   static const String defaultBaseUrl = 'http://127.0.0.1:3000/api';
-  static const String lanBaseUrl = 'http://10.76.137.2:3000/api';
+  static const String lanBaseUrl = 'http://10.76.137.202:3000/api';
 
   static final List<String> availableUrls = [
     usbTetherBaseUrl,
-    'http://10.76.137.2:3000/api',
+    wifiLanBaseUrl,
     emulatorBaseUrl,
     defaultBaseUrl,
-    wifiLanBaseUrl,
     physicalDeviceBaseUrl,
   ];
 
