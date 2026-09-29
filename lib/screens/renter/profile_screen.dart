@@ -391,6 +391,14 @@ class ProfileScreen extends ConsumerWidget {
               const SizedBox(height: 10),
 
               _buildProfileOptionTile(
+                icon: Icons.shield_outlined,
+                title: 'Privacy Policy & Data Rights',
+                subtitle: 'AES-256 encryption, zero ads, DPDP compliance',
+                onTap: () => _showPrivacyPolicyModal(context),
+              ),
+              const SizedBox(height: 8),
+
+              _buildProfileOptionTile(
                 icon: Icons.delete_outline_rounded,
                 title: 'Delete Account',
                 subtitle: 'Permanently remove your account & identity data',
@@ -565,6 +573,172 @@ class ProfileScreen extends ConsumerWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showPrivacyPolicyModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => Container(
+        height: MediaQuery.of(context).size.height * 0.85,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        ),
+        child: Column(
+          children: [
+            const SizedBox(height: 12),
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: const Color(0xFFE2DCD5),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 20, 24, 12),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: AppColors.accentRose.withValues(alpha: 0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.shield_outlined, color: AppColors.accentRose, size: 20),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Privacy & Data Protection',
+                          style: GoogleFonts.cormorantGaramond(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.ink,
+                          ),
+                        ),
+                        Text(
+                          'DPDP Act 2023 & Global Luxury Standards',
+                          style: GoogleFonts.inter(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.inkMuted,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () => Navigator.of(ctx).pop(),
+                    icon: const Icon(Icons.close_rounded, size: 20, color: AppColors.inkMuted),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(height: 1, color: Color(0xFFF0EBE1)),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.all(24),
+                physics: const BouncingScrollPhysics(),
+                children: [
+                  _buildPrivacySection(
+                    num: '1',
+                    title: 'Zero Advertising Monetization',
+                    desc:
+                        'Wardrob does not sell, rent, monetize, or share your personal data, phone numbers, or identity documents with third-party advertisers or data brokers under any circumstances.',
+                  ),
+                  _buildPrivacySection(
+                    num: '2',
+                    title: 'Government KYC & AES-256 Encryption',
+                    desc:
+                        'For security on couture garments valued up to ₹5,00,000, Aadhaar & PAN details are encrypted at rest using AES-256-GCM authenticated cryptography. Only verified compliance officers have restricted access.',
+                  ),
+                  _buildPrivacySection(
+                    num: '3',
+                    title: 'PCI-DSS Payment Escrow (Razorpay)',
+                    desc:
+                        'All transactions and refundable security deposits are processed via RBI-licensed Razorpay. Wardrob servers never store or process raw card numbers or CVVs.',
+                  ),
+                  _buildPrivacySection(
+                    num: '4',
+                    title: 'Right to Complete Data Erasure',
+                    desc:
+                        'In accordance with Apple App Store, Google Play Store, and DPDP guidelines, you can permanently delete your account anytime via Settings. All PII is permanently purged or anonymized upon completion of active rentals.',
+                  ),
+                  _buildPrivacySection(
+                    num: '5',
+                    title: 'Grievance Officer & Support',
+                    desc:
+                        'For privacy inquiries or data rights requests, contact our Data Grievance Cell at privacy@wardrob.com or via WhatsApp Concierge (+91 7011409941). Response within 48 business hours.',
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPrivacySection({required String num, required String title, required String desc}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 24,
+            height: 24,
+            decoration: BoxDecoration(
+              color: const Color(0xFFFAF7F2),
+              shape: BoxShape.circle,
+              border: Border.all(color: const Color(0xFFE8E2D8)),
+            ),
+            child: Center(
+              child: Text(
+                num,
+                style: GoogleFonts.inter(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.accentRose,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: GoogleFonts.inter(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.ink,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  desc,
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                    height: 1.55,
+                    color: const Color(0xFF5A5563),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
