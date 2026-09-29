@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../core/constants/app_colors.dart';
+import '../../core/widgets/luxury_drawer.dart';
 import 'catalog_screen.dart';
 import 'home_screen.dart';
 import 'profile_screen.dart';
@@ -13,17 +14,22 @@ class RenterMainNav extends StatefulWidget {
 }
 
 class _RenterMainNavState extends State<RenterMainNav> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _currentIndex = 0;
 
-  final _screens = const [
-    RenterHomeScreen(),
-    CatalogScreen(),
-    ProfileScreen(),
+  late final List<Widget> _screens = [
+    RenterHomeScreen(
+      onOpenDrawer: () => _scaffoldKey.currentState?.openDrawer(),
+    ),
+    const CatalogScreen(),
+    const ProfileScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: const LuxuryDrawer(),
       extendBody: true,
       body: IndexedStack(
         index: _currentIndex,

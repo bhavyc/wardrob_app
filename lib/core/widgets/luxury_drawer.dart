@@ -210,7 +210,7 @@ class LuxuryDrawer extends ConsumerWidget {
           // ── 2. SCROLLABLE SERVICES & ACCOUNT NAVIGATION ───────────────────
           Expanded(
             child: ListView(
-              padding: const EdgeInsets.fromLTRB(14, 16, 14, 16),
+              padding: EdgeInsets.fromLTRB(14, 16, 14, MediaQuery.paddingOf(context).bottom + 24),
               physics: const BouncingScrollPhysics(),
               children: [
                 // SECTION: MY WARDROB
@@ -244,29 +244,23 @@ class LuxuryDrawer extends ConsumerWidget {
                 const Divider(color: Color(0xFFEDE8E1), height: 1),
                 const SizedBox(height: 12),
 
-                // SECTION: LISTER PARTNERSHIP
-                _buildSectionHeader('MONETIZE YOUR CLOSET'),
-
-                _buildListerBannerTile(
-                  context: context,
-                  isLister: auth.isLister,
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    if (auth.isLister) {
+                // SECTION: LISTER PORTAL (Only shown if logged in user is a Lister)
+                if (auth.isLister) ...[
+                  _buildSectionHeader('LISTER PORTAL'),
+                  _buildListerBannerTile(
+                    context: context,
+                    isLister: true,
+                    onTap: () {
+                      Navigator.of(context).pop();
                       Navigator.of(context).push(
                         MaterialPageRoute(builder: (_) => const ListerMainNav()),
                       );
-                    } else {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => const ProfileScreen()),
-                      );
-                    }
-                  },
-                ),
-
-                const SizedBox(height: 12),
-                const Divider(color: Color(0xFFEDE8E1), height: 1),
-                const SizedBox(height: 12),
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  const Divider(color: Color(0xFFEDE8E1), height: 1),
+                  const SizedBox(height: 12),
+                ],
 
                 // SECTION: CONCIERGE & TRUST
                 _buildSectionHeader('CONCIERGE & TRUST'),

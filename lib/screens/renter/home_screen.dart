@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/widgets/brand_logo.dart';
 import '../../core/widgets/luxury_card.dart';
-import '../../core/widgets/luxury_drawer.dart';
 import '../../core/widgets/notification_bell_button.dart';
 import '../../models/listing_model.dart';
 import '../../providers/listing_provider.dart';
@@ -13,7 +12,8 @@ import 'catalog_screen.dart';
 import 'product_detail_screen.dart';
 
 class RenterHomeScreen extends ConsumerStatefulWidget {
-  const RenterHomeScreen({super.key});
+  final VoidCallback? onOpenDrawer;
+  const RenterHomeScreen({super.key, this.onOpenDrawer});
 
   @override
   ConsumerState<RenterHomeScreen> createState() => _RenterHomeScreenState();
@@ -86,7 +86,6 @@ class _RenterHomeScreenState extends ConsumerState<RenterHomeScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.bgCream,
-      drawer: const LuxuryDrawer(),
       appBar: AppBar(
         backgroundColor: AppColors.bgCream,
         elevation: 0,
@@ -115,7 +114,13 @@ class _RenterHomeScreenState extends ConsumerState<RenterHomeScreen> {
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   icon: const Icon(Icons.menu_rounded, color: AppColors.ink, size: 20),
-                  onPressed: () => Scaffold.of(context).openDrawer(),
+                  onPressed: () {
+                    if (widget.onOpenDrawer != null) {
+                      widget.onOpenDrawer!();
+                    } else {
+                      Scaffold.of(context).openDrawer();
+                    }
+                  },
                 ),
               ),
             ),
