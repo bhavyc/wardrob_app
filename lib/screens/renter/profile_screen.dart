@@ -676,7 +676,7 @@ class ProfileScreen extends ConsumerWidget {
                     num: '5',
                     title: 'Grievance Officer & Support',
                     desc:
-                        'For privacy inquiries or data rights requests, contact our Data Grievance Cell at privacy@wardrob.com or via WhatsApp Concierge (+91 7011409941). Response within 48 business hours.',
+                        'For privacy inquiries or data rights requests, contact our Data Grievance Cell at inwardrob@gmail.com. Response within 48 business hours.',
                   ),
                   const SizedBox(height: 20),
                 ],

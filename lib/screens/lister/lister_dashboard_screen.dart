@@ -984,9 +984,9 @@ class ListerDashboardScreen extends ConsumerWidget {
                   ),
                   _buildPrivacySection(
                     num: '5',
-                    title: 'Grievance Officer & Partner Concierge',
+                    title: 'Grievance Officer & Support',
                     desc:
-                        'Contact our Data Grievance Cell anytime at privacy@wardrob.com or via Partner Concierge WhatsApp (+91 7011409941).',
+                        'Contact our Data Grievance Cell anytime at inwardrob@gmail.com.',
                   ),
                   const SizedBox(height: 20),
                 ],
