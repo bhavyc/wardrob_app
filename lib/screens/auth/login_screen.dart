@@ -19,8 +19,8 @@ class LoginScreen extends ConsumerStatefulWidget {
 
 class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final _emailController = TextEditingController(text: 'sneha@wardrob.com');
-  final _passwordController = TextEditingController(text: 'renter123');
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   bool _obscurePassword = true;
 
   @override
@@ -33,15 +33,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
     _tabController.addListener(() {
       if (!_tabController.indexIsChanging) {
         ref.read(authProvider.notifier).clearError();
-        setState(() {
-          if (_tabController.index == 1) {
-            _emailController.text = 'priya@wardrob.com';
-            _passwordController.text = 'lister123';
-          } else {
-            _emailController.text = 'sneha@wardrob.com';
-            _passwordController.text = 'renter123';
-          }
-        });
       }
     });
 
@@ -309,41 +300,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                   ],
                                 ),
                               ),
-                              const SizedBox(height: 14),
-
-                              // Dynamic Profile Hint Pill
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFFAF8F5),
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(color: const Color(0xFFEDE7DE)),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      isLister ? Icons.verified_user_rounded : Icons.diamond_outlined,
-                                      size: 14,
-                                      color: isLister ? const Color(0xFFC5A880) : AppColors.accentRose,
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Expanded(
-                                      child: Text(
-                                        isLister
-                                            ? 'Verified Lister: priya@wardrob.com'
-                                            : 'VIP Renter: sneha@wardrob.com',
-                                        style: GoogleFonts.inter(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w600,
-                                          color: AppColors.inkSecondary,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 16),
 
                               // Auth Error Banner if needed
                               if (auth.error != null) ...[
@@ -408,7 +365,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                                         color: AppColors.ink,
                                       ),
                                       decoration: InputDecoration(
-                                        hintText: 'name@wardrob.com',
+                                        hintText: 'Enter your email address',
                                         hintStyle: GoogleFonts.inter(fontSize: 13, color: AppColors.inkMuted),
                                         prefixIcon: const Icon(
                                           Icons.alternate_email_rounded,

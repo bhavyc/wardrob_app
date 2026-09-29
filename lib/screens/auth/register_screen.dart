@@ -428,7 +428,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                               // Form Fields
                               _buildInputField(
                                 label: isLister ? 'DESIGNER / OWNER NAME' : 'FULL NAME',
-                                hint: isLister ? 'e.g. Sabyasachi Mukherjee' : 'e.g. Ananya Sharma',
+                                hint: isLister ? 'Enter boutique or designer name' : 'Enter your full name',
                                 icon: Icons.person_outline_rounded,
                                 controller: _nameController,
                               ),
@@ -436,7 +436,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
 
                               _buildInputField(
                                 label: 'EMAIL ADDRESS',
-                                hint: 'e.g. designer@couture.com',
+                                hint: 'Enter your email address',
                                 icon: Icons.alternate_email_rounded,
                                 controller: _emailController,
                                 keyboardType: TextInputType.emailAddress,
@@ -445,7 +445,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
 
                               _buildInputField(
                                 label: 'MOBILE NUMBER (10 DIGITS)',
-                                hint: 'Enter 10-digit mobile',
+                                hint: 'Enter 10-digit mobile number',
                                 icon: Icons.phone_iphone_rounded,
                                 controller: _phoneController,
                                 keyboardType: TextInputType.phone,
@@ -495,7 +495,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                 // Aadhaar Card Field
                                 _buildInputField(
                                   label: 'AADHAAR CARD NUMBER (12 DIGITS)',
-                                  hint: '123456789012',
+                                  hint: 'Enter 12-digit Aadhaar number',
                                   icon: Icons.badge_outlined,
                                   controller: _aadhaarController,
                                   keyboardType: TextInputType.number,
@@ -509,7 +509,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                 // PAN Card Field
                                 _buildInputField(
                                   label: 'PAN CARD NUMBER (10 CHARACTERS)',
-                                  hint: 'ABCDE1234F',
+                                  hint: 'Enter 10-character PAN number',
                                   icon: Icons.credit_card_rounded,
                                   controller: _panController,
                                   textCapitalization: TextCapitalization.characters,
@@ -545,7 +545,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> with SingleTick
                                 // Lister specific fields
                                 _buildInputField(
                                   label: 'BOUTIQUE / ATELIER STUDIO NAME',
-                                  hint: 'e.g. Royal Heritage Couture',
+                                  hint: 'Enter boutique or studio name',
                                   icon: Icons.storefront_outlined,
                                   controller: _shopNameController,
                                 ),
