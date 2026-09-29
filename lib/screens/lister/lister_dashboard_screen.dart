@@ -487,6 +487,36 @@ class ListerDashboardScreen extends ConsumerWidget {
                 },
               ),
 
+              const SizedBox(height: 28),
+
+              // ── ACCOUNT & DATA PRIVACY (APP STORE COMPLIANCE) ─────
+              Text(
+                'ACCOUNT & DATA PRIVACY',
+                style: GoogleFonts.inter(
+                  fontSize: 9,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1.2,
+                  color: AppColors.inkMuted,
+                ),
+              ),
+              const SizedBox(height: 10),
+
+              _buildOptionTile(
+                icon: Icons.shield_outlined,
+                title: 'Privacy Policy & Data Rights',
+                subtitle: 'AES-256 encryption, zero ads, DPDP compliance',
+                onTap: () => _showPrivacyPolicyModal(context),
+              ),
+              const SizedBox(height: 8),
+
+              _buildOptionTile(
+                icon: Icons.delete_outline_rounded,
+                title: 'Delete Partner Account',
+                subtitle: 'Permanently remove your shop & partner identity data',
+                isDestructive: true,
+                onTap: () => _showDeletePartnerAccountDialog(context, ref),
+              ),
+
               const SizedBox(height: 90),
             ],
           ),
@@ -651,6 +681,371 @@ class ListerDashboardScreen extends ConsumerWidget {
                 fontWeight: FontWeight.w600,
                 color: statusColor,
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildOptionTile({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+    bool isDestructive = false,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(14),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: isDestructive ? const Color(0xFFFCA5A5) : AppColors.border,
+            width: isDestructive ? 1.0 : 0.8,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.02),
+              blurRadius: 6,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: isDestructive ? const Color(0xFFFEF2F2) : const Color(0xFFFAF7F2),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(
+                icon,
+                color: isDestructive ? const Color(0xFFDC2626) : AppColors.ink,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: GoogleFonts.inter(
+                      fontSize: 13.5,
+                      fontWeight: FontWeight.w600,
+                      color: isDestructive ? const Color(0xFFDC2626) : AppColors.ink,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    style: GoogleFonts.inter(
+                      fontSize: 11,
+                      color: isDestructive ? const Color(0xFFEF4444) : AppColors.inkMuted,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              Icons.chevron_right_rounded,
+              color: isDestructive ? const Color(0xFFDC2626) : const Color(0xFFCBD5E1),
+              size: 20,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showDeletePartnerAccountDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (dialogCtx) => AlertDialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: const BoxDecoration(
+                color: Color(0xFFFEF2F2),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.warning_amber_rounded, color: Color(0xFFDC2626), size: 22),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                'Delete Partner Account?',
+                style: GoogleFonts.cormorantGaramond(fontSize: 20, fontWeight: FontWeight.w700, color: AppColors.ink),
+              ),
+            ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'This action is irreversible. All your partner data, shop details, and catalog listings will be permanently erased or anonymized under DPDP Act 2023.',
+              style: GoogleFonts.inter(fontSize: 12.5, color: const Color(0xFF4A4A58), height: 1.5),
+            ),
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFFBEB),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: const Color(0xFFFDE68A), width: 0.8),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.info_outline_rounded, size: 16, color: Color(0xFFD97706)),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Outfits currently rented out or in hub transit must complete their return cycle first.',
+                      style: GoogleFonts.inter(fontSize: 11, color: const Color(0xFF92400E)),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogCtx).pop(),
+            child: Text(
+              'Cancel',
+              style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.inkSecondary),
+            ),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFDC2626),
+              foregroundColor: Colors.white,
+              elevation: 0,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            ),
+            onPressed: () async {
+              Navigator.of(dialogCtx).pop();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Processing account deletion...'),
+                  duration: Duration(seconds: 2),
+                ),
+              );
+              final res = await ref.read(authProvider.notifier).deleteAccount();
+              if (res['success'] == true) {
+                if (context.mounted) {
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (_) => const RenterMainNav()),
+                    (route) => false,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(res['message'] ?? 'Partner account deleted successfully.'),
+                      backgroundColor: const Color(0xFF059669),
+                    ),
+                  );
+                }
+              } else {
+                if (context.mounted) {
+                  showDialog(
+                    context: context,
+                    builder: (errCtx) => AlertDialog(
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                      title: Text(
+                        'Cannot Delete Account',
+                        style: GoogleFonts.cormorantGaramond(fontSize: 18, fontWeight: FontWeight.w700, color: const Color(0xFFDC2626)),
+                      ),
+                      content: Text(
+                        res['error'] ?? 'Active rentals or unreturned items found.',
+                        style: GoogleFonts.inter(fontSize: 12.5, color: const Color(0xFF4A4A58), height: 1.45),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.of(errCtx).pop(),
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              }
+            },
+            child: Text(
+              'Yes, Delete',
+              style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w700),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showPrivacyPolicyModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => Container(
+        height: MediaQuery.of(context).size.height * 0.85,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        ),
+        child: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(top: 12, bottom: 8),
+              width: 38,
+              height: 4,
+              decoration: BoxDecoration(
+                color: const Color(0xFFE2DCD5),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              child: Row(
+                children: [
+                  const Icon(Icons.shield_outlined, color: AppColors.accentRose, size: 22),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Privacy & Data Protection',
+                          style: GoogleFonts.cormorantGaramond(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.ink,
+                          ),
+                        ),
+                        Text(
+                          'DPDP Act 2023 & Partner Protection',
+                          style: GoogleFonts.inter(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.inkMuted,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () => Navigator.of(ctx).pop(),
+                    icon: const Icon(Icons.close_rounded, size: 20, color: AppColors.inkMuted),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(height: 1, color: Color(0xFFF0EBE1)),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.all(24),
+                physics: const BouncingScrollPhysics(),
+                children: [
+                  _buildPrivacySection(
+                    num: '1',
+                    title: 'Partner Data Privacy Guarantee',
+                    desc:
+                        'Wardrob does not sell, trade, or monetize your partner information, bank payout details, or inventory archives to any third parties.',
+                  ),
+                  _buildPrivacySection(
+                    num: '2',
+                    title: 'KYC & Payout Encryption',
+                    desc:
+                        'Government verification and bank settlement details are encrypted at rest using AES-256-GCM. Payouts are routed directly via RBI-licensed partner gateways.',
+                  ),
+                  _buildPrivacySection(
+                    num: '3',
+                    title: 'Security Deposit & Escrow Protection',
+                    desc:
+                        'All outfit rentals are protected by automated caution deposits and hub verification checks to ensure garments are preserved in original condition.',
+                  ),
+                  _buildPrivacySection(
+                    num: '4',
+                    title: 'Right to Complete Partner Account Deletion',
+                    desc:
+                        'In compliance with Apple App Store, Google Play Store, and DPDP Act 2023, partners can delete their account at any time. Once all active bookings and garment returns are concluded, all partner listings and personal identifiable information are permanently wiped or irreversibly anonymized.',
+                  ),
+                  _buildPrivacySection(
+                    num: '5',
+                    title: 'Grievance Officer & Partner Concierge',
+                    desc:
+                        'Contact our Data Grievance Cell anytime at privacy@wardrob.com or via Partner Concierge WhatsApp (+91 7011409941).',
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPrivacySection({required String num, required String title, required String desc}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 24,
+            height: 24,
+            decoration: BoxDecoration(
+              color: const Color(0xFFFAF7F2),
+              shape: BoxShape.circle,
+              border: Border.all(color: const Color(0xFFE8E2D8)),
+            ),
+            child: Center(
+              child: Text(
+                num,
+                style: GoogleFonts.inter(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.accentRose,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: GoogleFonts.inter(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.ink,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  desc,
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                    height: 1.55,
+                    color: const Color(0xFF5A5563),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
