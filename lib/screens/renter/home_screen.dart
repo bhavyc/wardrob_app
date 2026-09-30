@@ -1349,9 +1349,172 @@ class _RenterHomeScreenState extends ConsumerState<RenterHomeScreen> {
         return 2199;
       case 'sharara':
         return 1999;
+      case 'anarkali':
+        return 2299;
+      case 'indo-western':
+      case 'indowestern':
+        return 2799;
+      case 'kurta set':
+      case 'kurta':
+        return 1799;
+      case 'tuxedo':
+        return 3499;
       default:
         return 2999;
     }
+  }
+
+  void _showCategoryPickerSheet(
+    BuildContext context,
+    List<String> categories,
+    String currentSelected,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (ctx) {
+        return Container(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(ctx).size.height * 0.65,
+          ),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Drag Handle
+              Container(
+                width: 40,
+                height: 4,
+                margin: const EdgeInsets.only(top: 12, bottom: 16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE2DDD5),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+
+              // Title Header
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Select Category',
+                          style: GoogleFonts.cormorantGaramond(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.ink,
+                          ),
+                        ),
+                        Text(
+                          'Compare rental economics across luxury couture',
+                          style: GoogleFonts.inter(
+                            fontSize: 12,
+                            color: AppColors.inkSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close_rounded, size: 20, color: AppColors.inkSecondary),
+                      onPressed: () => Navigator.pop(ctx),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 12),
+              const Divider(height: 1, color: Color(0xFFF0EBE3)),
+
+              // Scrollable Category List
+              Flexible(
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  itemCount: categories.length,
+                  separatorBuilder: (context, index) => const Divider(height: 1, color: Color(0xFFF7F4EF)),
+                  itemBuilder: (ctx, index) {
+                    final cat = categories[index];
+                    final isSelected = cat.toLowerCase() == currentSelected.toLowerCase();
+                    return InkWell(
+                      onTap: () {
+                        setState(() {
+                          _calcSelectedCategory = cat;
+                        });
+                        Navigator.pop(ctx);
+                      },
+                      borderRadius: BorderRadius.circular(14),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: isSelected ? const Color(0xFFFFF2F5) : Colors.transparent,
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 36,
+                              height: 36,
+                              decoration: BoxDecoration(
+                                color: isSelected
+                                    ? AppColors.accentRose.withValues(alpha: 0.12)
+                                    : const Color(0xFFFAF7F3),
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: isSelected
+                                      ? AppColors.accentRose.withValues(alpha: 0.3)
+                                      : const Color(0xFFEDE6DE),
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  cat.isNotEmpty ? cat[0].toUpperCase() : '•',
+                                  style: GoogleFonts.cormorantGaramond(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: isSelected ? AppColors.accentRose : AppColors.ink,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 14),
+                            Expanded(
+                              child: Text(
+                                cat,
+                                style: GoogleFonts.inter(
+                                  fontSize: 14.5,
+                                  fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                                  color: isSelected ? AppColors.accentRose : AppColors.ink,
+                                ),
+                              ),
+                            ),
+                            if (isSelected)
+                              const Icon(
+                                Icons.check_circle_rounded,
+                                color: AppColors.accentRose,
+                                size: 20,
+                              ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildLuxuryCalcSection(BuildContext context, List<ListingModel> listings) {
@@ -1363,10 +1526,31 @@ class _RenterHomeScreenState extends ConsumerState<RenterHomeScreen> {
       }
     }
 
-    final categories = ['Lehenga', 'Saree', 'Sherwani', 'Gown', 'Sharara'];
-    final selectedCat = categories.contains(_calcSelectedCategory)
-        ? _calcSelectedCategory
-        : categories.first;
+    // Dynamic categories combining core luxury staples and live listing categories
+    final Set<String> catSet = {
+      'Lehenga',
+      'Saree',
+      'Sherwani',
+      'Gown',
+      'Sharara',
+      'Anarkali',
+      'Indo-Western',
+      'Kurta Set',
+      'Tuxedo',
+    };
+    for (final l in listings) {
+      final trimmed = l.category.trim();
+      if (trimmed.isNotEmpty) {
+        final formatted = trimmed[0].toUpperCase() + trimmed.substring(1);
+        catSet.add(formatted);
+      }
+    }
+    final categories = catSet.toList()..sort();
+
+    final selectedCat = categories.firstWhere(
+      (c) => c.toLowerCase() == _calcSelectedCategory.toLowerCase(),
+      orElse: () => categories.first,
+    );
 
     final prices = catPriceMap[selectedCat.toLowerCase()];
     final double rentPrice = (prices != null && prices.isNotEmpty)
@@ -1464,71 +1648,62 @@ class _RenterHomeScreenState extends ConsumerState<RenterHomeScreen> {
               fontWeight: FontWeight.w400,
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 18),
 
-          // Horizontal Category Filter Pills
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: categories.map((cat) {
-                final isSelected = cat == selectedCat;
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _calcSelectedCategory = cat;
-                    });
-                  },
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    margin: const EdgeInsets.only(right: 8),
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: isSelected ? const Color(0xFF1B1722) : const Color(0xFFFAF7F3),
-                      borderRadius: BorderRadius.circular(22),
-                      border: Border.all(
-                        color: isSelected ? const Color(0xFF1B1722) : const Color(0xFFE8E2D8),
-                        width: 1.2,
-                      ),
-                      boxShadow: isSelected
-                          ? [
-                              BoxShadow(
-                                color: const Color(0xFF1B1722).withValues(alpha: 0.2),
-                                blurRadius: 8,
-                                offset: const Offset(0, 3),
-                              ),
-                            ]
-                          : null,
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (isSelected) ...[
-                          Container(
-                            width: 5,
-                            height: 5,
-                            margin: const EdgeInsets.only(right: 6),
-                            decoration: const BoxDecoration(
-                              color: AppColors.accentRose,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        ],
-                        Text(
-                          cat,
-                          style: GoogleFonts.inter(
-                            fontSize: 12,
-                            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                            color: isSelected ? Colors.white : AppColors.inkSecondary,
-                            letterSpacing: 0.2,
-                          ),
-                        ),
-                      ],
+          // Category Selector Dropdown Button (Opens Luxury Modal Bottom Sheet)
+          GestureDetector(
+            onTap: () => _showCategoryPickerSheet(context, categories, selectedCat),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFAF7F3),
+                borderRadius: BorderRadius.circular(28),
+                border: Border.all(color: const Color(0xFFE5DDD3), width: 1.2),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF1E1E2D).withValues(alpha: 0.04),
+                    blurRadius: 10,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Compare for: ',
+                    style: GoogleFonts.inter(
+                      fontSize: 12.5,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.inkSecondary,
                     ),
                   ),
-                );
-              }).toList(),
+                  Container(
+                    width: 6,
+                    height: 6,
+                    margin: const EdgeInsets.only(right: 6),
+                    decoration: const BoxDecoration(
+                      color: AppColors.accentRose,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  Text(
+                    selectedCat,
+                    style: GoogleFonts.inter(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.ink,
+                      letterSpacing: 0.2,
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  const Icon(
+                    Icons.keyboard_arrow_down_rounded,
+                    size: 18,
+                    color: AppColors.inkSecondary,
+                  ),
+                ],
+              ),
             ),
           ),
           const SizedBox(height: 18),
