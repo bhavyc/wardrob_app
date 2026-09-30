@@ -1400,31 +1400,37 @@ class _RenterHomeScreenState extends ConsumerState<RenterHomeScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Select Category',
-                          style: GoogleFonts.cormorantGaramond(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.ink,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Select Category',
+                            style: GoogleFonts.cormorantGaramond(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.ink,
+                            ),
                           ),
-                        ),
-                        Text(
-                          'Compare rental economics across luxury couture',
-                          style: GoogleFonts.inter(
-                            fontSize: 12,
-                            color: AppColors.inkSecondary,
+                          Text(
+                            'Compare rental economics across luxury couture',
+                            style: GoogleFonts.inter(
+                              fontSize: 12,
+                              color: AppColors.inkSecondary,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
+                    const SizedBox(width: 8),
                     IconButton(
                       icon: const Icon(Icons.close_rounded, size: 20, color: AppColors.inkSecondary),
                       onPressed: () => Navigator.pop(ctx),
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
                     ),
                   ],
                 ),
