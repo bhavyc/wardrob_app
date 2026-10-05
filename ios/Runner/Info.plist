@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Wardrob Mobile</string>
+	<string>Wardrob</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -66,5 +66,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Wardrob requires camera access to take garment inspection photos and upload verification documents.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Wardrob requires photo library access to upload designer wardrobe images and verification documents.</string>
 </dict>
 </plist>

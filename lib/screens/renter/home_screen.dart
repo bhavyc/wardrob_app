@@ -1337,32 +1337,6 @@ class _RenterHomeScreenState extends ConsumerState<RenterHomeScreen> {
   // ─────────────────────────────────────────────────────────────────────────────
   // 7. BUY VS RENT — LUXURY SAVINGS CALCULATOR
   // ─────────────────────────────────────────────────────────────────────────────
-  double _getFallbackPrice(String cat) {
-    switch (cat.toLowerCase()) {
-      case 'lehenga':
-        return 3999;
-      case 'saree':
-        return 2499;
-      case 'sherwani':
-        return 2999;
-      case 'gown':
-        return 2199;
-      case 'sharara':
-        return 1999;
-      case 'anarkali':
-        return 2299;
-      case 'indo-western':
-      case 'indowestern':
-        return 2799;
-      case 'kurta set':
-      case 'kurta':
-        return 1799;
-      case 'tuxedo':
-        return 3499;
-      default:
-        return 2999;
-    }
-  }
 
   void _showCategoryPickerSheet(
     BuildContext context,
@@ -1524,33 +1498,23 @@ class _RenterHomeScreenState extends ConsumerState<RenterHomeScreen> {
   }
 
   Widget _buildLuxuryCalcSection(BuildContext context, List<ListingModel> listings) {
-    // Dynamically calculate average rental prices from live listings
+    // Dynamically calculate average rental prices purely from live backend listings
     final Map<String, List<double>> catPriceMap = {};
-    for (final l in listings) {
-      if (l.category.isNotEmpty && l.rentalPrice > 0) {
-        catPriceMap.putIfAbsent(l.category.toLowerCase(), () => []).add(l.rentalPrice);
-      }
-    }
+    final Set<String> catSet = {};
 
-    // Dynamic categories combining core luxury staples and live listing categories
-    final Set<String> catSet = {
-      'Lehenga',
-      'Saree',
-      'Sherwani',
-      'Gown',
-      'Sharara',
-      'Anarkali',
-      'Indo-Western',
-      'Kurta Set',
-      'Tuxedo',
-    };
     for (final l in listings) {
       final trimmed = l.category.trim();
-      if (trimmed.isNotEmpty) {
+      if (trimmed.isNotEmpty && l.rentalPrice > 0) {
+        catPriceMap.putIfAbsent(trimmed.toLowerCase(), () => []).add(l.rentalPrice);
         final formatted = trimmed[0].toUpperCase() + trimmed.substring(1);
         catSet.add(formatted);
       }
     }
+
+    if (catSet.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     final categories = catSet.toList()..sort();
 
     final selectedCat = categories.firstWhere(
@@ -1561,7 +1525,7 @@ class _RenterHomeScreenState extends ConsumerState<RenterHomeScreen> {
     final prices = catPriceMap[selectedCat.toLowerCase()];
     final double rentPrice = (prices != null && prices.isNotEmpty)
         ? (prices.reduce((a, b) => a + b) / prices.length).roundToDouble()
-        : _getFallbackPrice(selectedCat);
+        : 2999;
 
     final double buyPrice = rentPrice * 25; // Estimated retail purchase price: 25x rental price
     final double savings = buyPrice - rentPrice;
