@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -13,15 +14,17 @@ class ApiClient {
   static const String defaultBaseUrl = 'http://127.0.0.1:3000/api';
   static const String lanBaseUrl = 'http://10.128.69.48:3000/api';
 
-  static final List<String> availableUrls = [
-    usbTetherBaseUrl,
-    wifiLanBaseUrl,
-    emulatorBaseUrl,
-    defaultBaseUrl,
-    physicalDeviceBaseUrl,
-  ];
+  static final List<String> availableUrls = kReleaseMode
+      ? [productionBaseUrl]
+      : [
+          usbTetherBaseUrl,
+          wifiLanBaseUrl,
+          emulatorBaseUrl,
+          defaultBaseUrl,
+          physicalDeviceBaseUrl,
+        ];
 
-  static String activeBaseUrl = usbTetherBaseUrl;
+  static String activeBaseUrl = kReleaseMode ? productionBaseUrl : usbTetherBaseUrl;
 
   final Dio dio;
   final FlutterSecureStorage secureStorage;
