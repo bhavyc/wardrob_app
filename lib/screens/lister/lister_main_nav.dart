@@ -65,11 +65,11 @@ class ListerMainNav extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 5),
         child: Row(
           children: [
-            _buildNavItem(ref, currentIndex, 0, 'Home', Icons.home_outlined, Icons.home_rounded),
-            _buildNavItem(ref, currentIndex, 1, 'Wardrobe', Icons.checkroom_outlined, Icons.checkroom),
-            _buildNavItem(ref, currentIndex, 2, 'Orders', Icons.receipt_long_outlined, Icons.receipt_long),
-            _buildNavItem(ref, currentIndex, 3, 'Earnings', Icons.account_balance_wallet_outlined, Icons.account_balance_wallet),
-            _buildNavItem(ref, currentIndex, 4, 'KYC', Icons.verified_user_outlined, Icons.verified_user),
+            _buildNavItem(context, ref, currentIndex, 0, 'Home', Icons.home_outlined, Icons.home_rounded),
+            _buildNavItem(context, ref, currentIndex, 1, 'Wardrobe', Icons.checkroom_outlined, Icons.checkroom),
+            _buildNavItem(context, ref, currentIndex, 2, 'Orders', Icons.receipt_long_outlined, Icons.receipt_long),
+            _buildNavItem(context, ref, currentIndex, 3, 'Earnings', Icons.account_balance_wallet_outlined, Icons.account_balance_wallet),
+            _buildNavItem(context, ref, currentIndex, 4, 'KYC', Icons.verified_user_outlined, Icons.verified_user),
           ],
         ),
       ),
@@ -77,6 +77,7 @@ class ListerMainNav extends ConsumerWidget {
   }
 
   Widget _buildNavItem(
+    BuildContext context,
     WidgetRef ref,
     int currentIndex,
     int index,
@@ -90,6 +91,7 @@ class ListerMainNav extends ConsumerWidget {
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
           if (currentIndex != index) {
             ref.read(listerNavIndexProvider.notifier).state = index;
           }

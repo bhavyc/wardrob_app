@@ -11,6 +11,7 @@ class BrandLogoWidget extends StatelessWidget {
   final CrossAxisAlignment align;
   final bool showSubtitle;
   final String? subtitle;
+  final bool showOrnament;
 
   const BrandLogoWidget({
     super.key,
@@ -20,6 +21,7 @@ class BrandLogoWidget extends StatelessWidget {
     this.align = CrossAxisAlignment.center,
     this.showSubtitle = false,
     this.subtitle,
+    this.showOrnament = true,
   });
 
   @override
@@ -65,38 +67,40 @@ class BrandLogoWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: align,
       children: [
-        // Diamond Crest Ornament: ─── ◆ ───
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              width: ruleWidth,
-              height: 1.0,
-              color: color.withValues(alpha: 0.85),
-            ),
-            const SizedBox(width: 4),
-            Transform.rotate(
-              angle: 0.785398, // 45 degrees
-              child: Container(
-                width: diamondSize,
-                height: diamondSize,
-                decoration: BoxDecoration(
-                  color: color,
-                  borderRadius: BorderRadius.circular(0.5),
+        if (showOrnament) ...[
+          // Diamond Crest Ornament: ─── ◆ ───
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: ruleWidth,
+                height: 1.0,
+                color: color.withValues(alpha: 0.85),
+              ),
+              const SizedBox(width: 4),
+              Transform.rotate(
+                angle: 0.785398, // 45 degrees
+                child: Container(
+                  width: diamondSize,
+                  height: diamondSize,
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: BorderRadius.circular(0.5),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(width: 4),
-            Container(
-              width: ruleWidth,
-              height: 1.0,
-              color: color.withValues(alpha: 0.85),
-            ),
-          ],
-        ),
-        const SizedBox(height: 3),
+              const SizedBox(width: 4),
+              Container(
+                width: ruleWidth,
+                height: 1.0,
+                color: color.withValues(alpha: 0.85),
+              ),
+            ],
+          ),
+          const SizedBox(height: 3),
+        ],
 
         // Wordmark: WARDROB
         Text(

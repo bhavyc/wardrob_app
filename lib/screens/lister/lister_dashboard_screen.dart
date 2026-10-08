@@ -48,6 +48,7 @@ class ListerDashboardScreen extends ConsumerWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         scrolledUnderElevation: 0,
+        toolbarHeight: 64,
         centerTitle: true,
         title: const BrandLogoWidget(
           size: LogoSize.md,
@@ -57,16 +58,22 @@ class ListerDashboardScreen extends ConsumerWidget {
         actions: [
           const NotificationBellButton(),
           IconButton(
-            icon: const Icon(Icons.refresh_rounded, color: AppColors.inkSecondary),
+            icon: const Icon(Icons.refresh_rounded, color: AppColors.inkSecondary, size: 20),
             tooltip: 'Refresh',
+            visualDensity: VisualDensity.compact,
+            padding: const EdgeInsets.all(6),
+            constraints: const BoxConstraints(minWidth: 34, minHeight: 34),
             onPressed: () {
               ref.read(listerProvider.notifier).refreshAll();
               ref.read(listerBookingsProvider.notifier).fetchBookings();
             },
           ),
           IconButton(
-            icon: const Icon(Icons.logout_rounded, color: Color(0xFFDC2626)),
+            icon: const Icon(Icons.logout_rounded, color: Color(0xFFDC2626), size: 20),
             tooltip: 'Sign Out',
+            visualDensity: VisualDensity.compact,
+            padding: const EdgeInsets.all(6),
+            constraints: const BoxConstraints(minWidth: 34, minHeight: 34),
             onPressed: () async {
               await ref.read(authProvider.notifier).logout();
               if (context.mounted) {

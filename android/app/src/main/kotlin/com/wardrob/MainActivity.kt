@@ -1,4 +1,4 @@
-package com.wardrob.wardrob_mobile
+package com.wardrob
 
 import io.flutter.embedding.android.FlutterActivity
 

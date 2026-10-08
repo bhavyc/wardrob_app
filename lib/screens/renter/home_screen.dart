@@ -1624,7 +1624,7 @@ class _RenterHomeScreenState extends ConsumerState<RenterHomeScreen> {
           GestureDetector(
             onTap: () => _showCategoryPickerSheet(context, categories, selectedCat),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
                 color: const Color(0xFFFAF7F3),
                 borderRadius: BorderRadius.circular(28),
@@ -1637,42 +1637,45 @@ class _RenterHomeScreenState extends ConsumerState<RenterHomeScreen> {
                   ),
                 ],
               ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Compare for: ',
-                    style: GoogleFonts.inter(
-                      fontSize: 12.5,
-                      fontWeight: FontWeight.w500,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Compare for: ',
+                      style: GoogleFonts.inter(
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.inkSecondary,
+                      ),
+                    ),
+                    Container(
+                      width: 6,
+                      height: 6,
+                      margin: const EdgeInsets.only(right: 6),
+                      decoration: const BoxDecoration(
+                        color: AppColors.accentRose,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    Text(
+                      selectedCat,
+                      style: GoogleFonts.inter(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.ink,
+                        letterSpacing: 0.2,
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    const Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      size: 18,
                       color: AppColors.inkSecondary,
                     ),
-                  ),
-                  Container(
-                    width: 6,
-                    height: 6,
-                    margin: const EdgeInsets.only(right: 6),
-                    decoration: const BoxDecoration(
-                      color: AppColors.accentRose,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  Text(
-                    selectedCat,
-                    style: GoogleFonts.inter(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.ink,
-                      letterSpacing: 0.2,
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  const Icon(
-                    Icons.keyboard_arrow_down_rounded,
-                    size: 18,
-                    color: AppColors.inkSecondary,
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -2262,7 +2265,7 @@ class _RenterHomeScreenState extends ConsumerState<RenterHomeScreen> {
                   },
                   child: Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(vertical: 13),
+                    padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 16),
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
                         colors: [Color(0xFFD4567A), Color(0xFFB8405E)],
@@ -2277,21 +2280,24 @@ class _RenterHomeScreenState extends ConsumerState<RenterHomeScreen> {
                       ],
                     ),
                     child: Center(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'Rent this $selectedCat for ₹${rentPrice.toInt()}',
-                            style: GoogleFonts.inter(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
-                              letterSpacing: 0.3,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Rent $selectedCat for ₹${rentPrice.toInt()}',
+                              style: GoogleFonts.inter(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                                letterSpacing: 0.3,
+                              ),
                             ),
-                          ),
-                          const SizedBox(width: 6),
-                          const Icon(Icons.arrow_forward_rounded, size: 15, color: Colors.white),
-                        ],
+                            const SizedBox(width: 6),
+                            const Icon(Icons.arrow_forward_rounded, size: 15, color: Colors.white),
+                          ],
+                        ),
                       ),
                     ),
                   ),

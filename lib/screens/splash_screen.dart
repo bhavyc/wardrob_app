@@ -218,46 +218,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                       _buildCornerDiamond(bottom: 3, left: 3),
                       _buildCornerDiamond(bottom: 3, right: 3),
 
-                      // Top Archival Tag
-                      Positioned(
-                        top: 14,
-                        left: 0,
-                        right: 0,
-                        child: Center(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 3,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.8),
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                color: AppColors.gold.withValues(alpha: 0.25),
-                                width: 0.8,
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                _buildMiniDiamond(AppColors.accentRose),
-                                const SizedBox(width: 6),
-                                Text(
-                                  'EST. 2024 · ARCHIVE NO. 01',
-                                  style: GoogleFonts.inter(
-                                    fontSize: 8.0,
-                                    fontWeight: FontWeight.w600,
-                                    letterSpacing: 2.0,
-                                    color: AppColors.inkSecondary,
-                                  ),
-                                ),
-                                const SizedBox(width: 6),
-                                _buildMiniDiamond(AppColors.accentRose),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),

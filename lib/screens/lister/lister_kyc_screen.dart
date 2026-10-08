@@ -692,12 +692,13 @@ class _ListerKycScreenState extends ConsumerState<ListerKycScreen> {
         // Submit Button
         SizedBox(
           width: double.infinity,
-          height: 48,
+          height: 50,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: hasFeePaid ? AppColors.accentRose : const Color(0xFFE2E8F0),
               foregroundColor: Colors.white,
               elevation: 0,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
             onPressed: (hasFeePaid && !_isSubmitting) ? _handleSubmit : null,
@@ -804,28 +805,33 @@ class _ListerKycScreenState extends ConsumerState<ListerKycScreen> {
           ),
 
           if (!hasFeePaid) ...[
-            const SizedBox(height: 14),
+            const SizedBox(height: 16),
             SizedBox(
               width: double.infinity,
-              height: 44,
+              height: 50,
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFD97706),
                   foregroundColor: Colors.white,
                   elevation: 0,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 ),
                 onPressed: _isPayingFee ? null : _handlePayFee,
                 icon: _isPayingFee
                     ? const SizedBox(
-                        width: 16,
-                        height: 16,
+                        width: 18,
+                        height: 18,
                         child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                       )
-                    : const Icon(Icons.payment_rounded, size: 18),
+                    : const Icon(Icons.payment_rounded, size: 20),
                 label: Text(
                   _isPayingFee ? 'Opening Gateway...' : 'Pay ₹500 via Razorpay',
-                  style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700),
+                  style: GoogleFonts.inter(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.2,
+                  ),
                 ),
               ),
             ),

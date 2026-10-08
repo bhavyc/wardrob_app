@@ -37,15 +37,24 @@ class _ListerListingsScreenState extends ConsumerState<ListerListingsScreen> {
     final isApproved = profile?.status == 'APPROVED';
 
     if (!feePaid || !isApproved) {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 3),
+          margin: const EdgeInsets.fromLTRB(16, 0, 16, 85),
+          dismissDirection: DismissDirection.horizontal,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           content: Text(!feePaid
               ? 'Please pay the onboarding fee first.'
               : 'Your KYC is under review before you can publish.'),
           action: SnackBarAction(
             label: 'View KYC',
             textColor: Colors.white,
-            onPressed: () => ref.read(listerNavIndexProvider.notifier).state = 4,
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ref.read(listerNavIndexProvider.notifier).state = 4;
+            },
           ),
           backgroundColor: const Color(0xFFD97706),
         ),
